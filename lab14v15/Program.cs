@@ -17,17 +17,21 @@ namespace Lab14V15
 
     public static class CollectionHelper<T>
     {
-        public static void Skip(IEnumerable<T> collection, int count, Action<T> action)
+        public static IEnumerable<T> Skip(IEnumerable<T> collection, int count)
         {
+            List<T> result = new List<T>();
             int index = 0;
+
             foreach (T item in collection)
             {
                 if (index >= count)
                 {
-                    action(item);
+                    result.Add(item);
                 }
                 index++;
             }
+
+            return result;
         }
     }
 
@@ -35,10 +39,12 @@ namespace Lab14V15
     {
         static void Main(string[] args)
         {
-            List<int> numbers = new List<int> { 10, 20, 30, 40, 50, 60 };
-            
-            Console.Write("Початковий List<int>: ");
             Action<int> printNumber = (n) => Console.Write(n + " ");
+            Action<string> printName = (s) => Console.WriteLine(" - " + s);
+            Action<Product> printProduct = (p) => Console.WriteLine(" - " + p.Name + " (" + p.Price + " грн)");
+
+            List<int> numbers = new List<int> { 10, 20, 30, 40, 50, 60 };
+            Console.Write("Початковий List<int>: ");
             foreach (int num in numbers)
             {
                 printNumber(num);
@@ -46,8 +52,25 @@ namespace Lab14V15
             Console.WriteLine();
 
             Console.Write("Пропускаємо перші 3 елементи. Результат: ");
-            CollectionHelper<int>.Skip(numbers, 3, (n) => Console.Write(n + " "));
+            foreach (int num in CollectionHelper<int>.Skip(numbers, 3))
+            {
+                printNumber(num);
+            }
             Console.WriteLine();
+            Console.WriteLine();
+
+            List<string> names = new List<string> { "Олена", "Іван", "Марія", "Петро" };
+            Console.WriteLine("Початковий List<string>:");
+            foreach (string name in names)
+            {
+                printName(name);
+            }
+
+            Console.WriteLine("Пропускаємо перші 2 елементи. Результат:");
+            foreach (string name in CollectionHelper<string>.Skip(names, 2))
+            {
+                printName(name);
+            }
             Console.WriteLine();
 
             List<Product> products = new List<Product>
@@ -57,17 +80,21 @@ namespace Lab14V15
                 new Product("Сир", 150),
                 new Product("М'ясо", 300)
             };
-
             Console.WriteLine("Початковий List<Product>:");
-            Action<Product> printProduct = (p) => Console.WriteLine(" - " + p.Name + " (" + p.Price + " грн)");
-            foreach (Product p in products)
+            foreach (Product product in products)
             {
-                printProduct(p);
+                printProduct(product);
+            }
+
+            Console.WriteLine("Пропускаємо перші 2 елементи. Результат:");
+            foreach (Product product in CollectionHelper<Product>.Skip(products, 2))
+            {
+                printProduct(product);
             }
             Console.WriteLine();
 
-            Console.WriteLine("Пропускаємо перші 2 елементи. Результат:");
-            CollectionHelper<Product>.Skip(products, 2, (p) => Console.WriteLine(" - " + p.Name + " (" + p.Price + " грн)"));
+            List<int> rest = new List<int>(CollectionHelper<int>.Skip(numbers, 10));
+            Console.WriteLine("Пропускаємо 10 елементів (більше, ніж у списку). Залишилось елементів: " + rest.Count);
         }
     }
 }
