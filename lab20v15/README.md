@@ -45,7 +45,7 @@
 
 Файл: https://github.com/serilog/serilog/blob/main/src/Serilog/Configuration/LoggerEnrichmentConfiguration.cs#L42-L53
 
-Метод With (рядки 42-53) приймає будь-які ILogEventEnricher і додає їх до логера. Є й варіант With<TEnricher>() (рядки 62-66), а WithProperty (рядки 75-78) просто створює PropertyEnricher і передає його в той самий With. Методи When і AtLevel (рядки 97-135) обгортають enricher у ConditionalEnricher, щоб він працював лише за умови, і ніякі існуючі enrichers не змінюються. Тобто система відкрита для розширення (нові enrichers, нові умови), а код Logger закритий для змін. Додавання нової функції це новий клас, який реалізує інтерфейс.
+Метод With (рядки 42-53) приймає будь-які ILogEventEnricher і додає їх до логера. Є й варіант `With<TEnricher>()` (рядки 62-66), а WithProperty (рядки 75-78) просто створює PropertyEnricher і передає його в той самий With. Методи When і AtLevel (рядки 97-135) обгортають enricher у ConditionalEnricher, щоб він працював лише за умови, і ніякі існуючі enrichers не змінюються. Тобто система відкрита для розширення (нові enrichers, нові умови), а код Logger закритий для змін. Додавання нової функції це новий клас, який реалізує інтерфейс.
 
 ### Приклад 6: IPaymentMethod і плагіни оплати (nopCommerce)
 
